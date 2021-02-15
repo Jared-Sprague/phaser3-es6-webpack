@@ -78,7 +78,7 @@ export default function makeAnimations(scene) {
     scene.anims.create(config);
 
     // Didn't find a good way to create an animation with frame names without a pattern.
-    let frames = [];
+    const frames = [];
     (['mario/half', 'mario/stand', 'mario/half', 'mario/standSuper', 'mario/half', 'mario/standSuper']).forEach(
         frame => {
             frames.push({

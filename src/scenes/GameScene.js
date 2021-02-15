@@ -119,7 +119,7 @@ class GameScene extends Phaser.Scene {
         // Prepare the finishLine
         let worldEndAt = -1;
         for (let x = 0; x < this.groundLayer.width; x++) {
-            let tile = this.groundLayer.getTileAt(x, 2);
+            const tile = this.groundLayer.getTileAt(x, 2);
             if (tile && tile.properties.worldsEnd) {
                 worldEndAt = tile.pixelX;
                 break;
@@ -134,9 +134,9 @@ class GameScene extends Phaser.Scene {
 
         // Touch controls is really just a quick hack to try out performance on mobiles,
         // It's not itended as a suggestion on how to do it in a real game.
-        let jumpButton = this.add.sprite(350, 180);
+        const jumpButton = this.add.sprite(350, 180);
         jumpButton.play('button');
-        let dpad = this.add.sprite(20, 170);
+        const dpad = this.add.sprite(20, 170);
         dpad.play('dpad');
         this.touchControls = {
             dpad: dpad,
@@ -160,8 +160,8 @@ class GameScene extends Phaser.Scene {
         dpad.alpha = 0;
         dpad.setInteractive();
         dpad.on('pointerdown', (pointer) => {
-            let x = dpad.x + dpad.width - pointer.x;
-            let y = dpad.y + dpad.height - pointer.y;
+            const x = dpad.x + dpad.width - pointer.x;
+            const y = dpad.y + dpad.height - pointer.y;
             console.log(x, y);
             if (y > 0 || Math.abs(x) > -y) {
                 if (x > 0) {
@@ -295,7 +295,7 @@ class GameScene extends Phaser.Scene {
             if (this.levelTimer.displayedTime < 50 && !this.levelTimer.hurry) {
                 this.levelTimer.hurry = true;
                 this.music.pause();
-                let sound = this.sound.addAudioSprite('sfx');
+                const sound = this.sound.addAudioSprite('sfx');
                 sound.on('ended', (sound) => {
                     this.music.seek = 0;
                     this.music.rate = 1.5;
@@ -353,7 +353,7 @@ class GameScene extends Phaser.Scene {
         // If the tile has a callback, lets fire it
         if (tile.properties.callback) {
             switch (tile.properties.callback) {
-                case 'questionMark':
+                case 'questionMark': {
                     // Shift to a metallic block
                     tile.index = 44;
 
@@ -367,7 +367,7 @@ class GameScene extends Phaser.Scene {
                     tile.setCollision(true);
 
                     // Check powerUp for what to do, make a coin if not defined
-                    let powerUp = tile.powerUp ? tile.powerUp : 'coin';
+                    const powerUp = tile.powerUp ? tile.powerUp : 'coin';
 
                     // Make powerUp (including a coin)
                     (() => new PowerUp({
@@ -379,6 +379,7 @@ class GameScene extends Phaser.Scene {
                     }))();
 
                     break;
+                }
                 case 'breakable':
                     if (sprite.type === 'mario' && sprite.animSuffix === '') {
                         // Can't break it anyway. Bounce it a bit.
@@ -449,8 +450,8 @@ class GameScene extends Phaser.Scene {
                     }
                 });
                 break;
-            case 1:
-                let sound = this.sound.addAudioSprite('sfx');
+            case 1: {
+                const sound = this.sound.addAudioSprite('sfx');
                 sound.on('ended', (sound) => {
                     /* this.mario.x = 48;
                     this.mario.y = -32;
@@ -478,6 +479,7 @@ class GameScene extends Phaser.Scene {
                     onComplete: () => this.removeFlag(2)
                 });
                 break;
+            }
             case 2:
                 this.tweens.add({
                     targets: this.mario,
@@ -501,7 +503,7 @@ class GameScene extends Phaser.Scene {
 
     record(delta) {
         let update = false;
-        let keys = {
+        const keys = {
             jump: this.keys.jump.isDown || this.keys.jump2.isDown,
             left: this.keys.left.isDown,
             right: this.keys.right.isDown,
@@ -515,9 +517,9 @@ class GameScene extends Phaser.Scene {
             this.recordedKeys = {};
             update = true;
         } else {
-            update = (time - recording[recording.length - 1].time) > 200; // update at least 5 times per second
+            update = (window.time - window.recording[window.recording.length - 1].time) > 200; // update at least 5 times per second
         }
-        time += delta;
+        window.time += delta;
         if (!update) {
             // update if keys changed
             ['jump', 'left', 'right', 'down', 'fire'].forEach((dir) => {
@@ -527,8 +529,8 @@ class GameScene extends Phaser.Scene {
             });
         }
         if (update) {
-            recording.push({
-                time,
+            window.recording.push({
+                time: window.time,
                 keys,
                 x: this.mario.x,
                 y: this.mario.y,
@@ -578,7 +580,7 @@ class GameScene extends Phaser.Scene {
             if (typeof modifier.gid !== 'undefined') {
                 properties = this.tileset.tileProperties[modifier.gid - 1];
                 type = properties.type;
-                if (properties.hasOwnProperty('powerUp')) {
+                if (Object.prototype.hasOwnProperty.call(properties, 'powerUp')) {
                     type = 'powerUp';
                 }
             } else {
@@ -647,8 +649,8 @@ class GameScene extends Phaser.Scene {
     cleanUp() {
         // Never called since 3.10 update (I called it from create before). If Everything is fine, I'll remove this method.
         // Scenes isn't properly destroyed yet.
-        let ignore = ['sys', 'anims', 'cache', 'registry', 'sound', 'textures', 'events', 'cameras', 'make', 'add', 'scene', 'children', 'cameras3d', 'time', 'data', 'input', 'load', 'tweens', 'lights', 'physics'];
-        let whatThisHad = ['sys', 'anims', 'cache', 'registry', 'sound', 'textures', 'events', 'cameras', 'make', 'add', 'scene', 'children', 'cameras3d', 'time', 'data', 'input', 'load', 'tweens', 'lights', 'physics', 'attractMode', 'destinations', 'rooms', 'eightBit', 'music', 'map', 'tileset', 'groundLayer', 'mario', 'enemyGroup', 'powerUps', 'keys', 'blockEmitter', 'bounceTile', 'levelTimer', 'score', 'finishLine', 'touchControls'];
+        const ignore = ['sys', 'anims', 'cache', 'registry', 'sound', 'textures', 'events', 'cameras', 'make', 'add', 'scene', 'children', 'cameras3d', 'time', 'data', 'input', 'load', 'tweens', 'lights', 'physics'];
+        const whatThisHad = ['sys', 'anims', 'cache', 'registry', 'sound', 'textures', 'events', 'cameras', 'make', 'add', 'scene', 'children', 'cameras3d', 'time', 'data', 'input', 'load', 'tweens', 'lights', 'physics', 'attractMode', 'destinations', 'rooms', 'eightBit', 'music', 'map', 'tileset', 'groundLayer', 'mario', 'enemyGroup', 'powerUps', 'keys', 'blockEmitter', 'bounceTile', 'levelTimer', 'score', 'finishLine', 'touchControls'];
         whatThisHad.forEach(key => {
             if (ignore.indexOf(key) === -1 && this[key]) {
                 switch (key) {

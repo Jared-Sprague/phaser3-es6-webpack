@@ -4,11 +4,13 @@ class TitleScene extends Phaser.Scene {
             key: 'TitleScene'
         });
     }
+
     preload() {
         this.load.atlas('mario-sprites', 'assets/mario-sprites.png', 'assets/mario-sprites.json');
     }
+
     create() {
-        let config = {
+        const config = {
             key: 'title',
             frames: [{
                 frame: 'title',
@@ -27,8 +29,8 @@ class TitleScene extends Phaser.Scene {
         this.registry.set('restartScene', false);
         this.registry.set('attractMode', true);
 
-        let sh = window.screen.availHeight;
-        let sw = window.screen.availWidth;
+        const sh = window.screen.availHeight;
+        const sw = window.screen.availWidth;
 
         // let ch = 0;
         // let cw = 0;
@@ -40,7 +42,7 @@ class TitleScene extends Phaser.Scene {
             multiplier = sh / 240;
         }
         multiplier = Math.floor(multiplier);
-        let el = document.getElementsByTagName('canvas')[0];
+        const el = document.getElementsByTagName('canvas')[0];
         el.style.width = 400 * multiplier + 'px';
         el.style.height = 240 * multiplier + 'px';
 
@@ -64,7 +66,6 @@ class TitleScene extends Phaser.Scene {
             this.blink = 500;
         }
 
-        if (!this.registry.get('attractMode')) {}
         if (this.startKey.isDown) {
             this.startGame();
         }

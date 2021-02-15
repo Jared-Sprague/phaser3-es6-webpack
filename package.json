@@ -7,7 +7,8 @@
     "scripts": {
         "dev": "webpack --mode=development",
         "deploy": "webpack  --mode=production --config webpack.production.config.js",
-        "eslint": "eslint ./src/**/**.js ./package.json ./*.js ./.babelrc ./.eslintrc.json"
+        "eslint": "eslint ./src/**/**.js ./*.js",
+        "eslint-fix": "eslint ./src/**/**.js ./*.js --fix"
     },
     "license": "MIT",
     "devDependencies": {

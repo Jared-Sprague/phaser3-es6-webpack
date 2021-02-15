@@ -86,7 +86,7 @@ export default class Mario extends Phaser.GameObjects.Sprite {
             }
         }
 
-        let input = {
+        const input = {
             left: keys.left.isDown || this.scene.touchControls.left,
             right: keys.right.isDown || this.scene.touchControls.right,
             down: keys.down.isDown || this.scene.touchControls.down,
@@ -95,7 +95,7 @@ export default class Mario extends Phaser.GameObjects.Sprite {
         };
 
         if (input.fire && this.animSuffix === 'Fire' && this.fireCoolDown < 0) {
-            let fireball = this.scene.fireballs.get(this);
+            const fireball = this.scene.fireballs.get(this);
             if (fireball) {
                 fireball.fire(this.x, this.y, this.flipX);
                 this.fireCoolDown = 300;
@@ -295,8 +295,8 @@ export default class Mario extends Phaser.GameObjects.Sprite {
         rooms.forEach(
             (room) => {
                 if (this.x >= room.x && this.x <= (room.x + room.width)) {
-                    let cam = this.scene.cameras.main;
-                    let layer = this.scene.groundLayer;
+                    const cam = this.scene.cameras.main;
+                    const layer = this.scene.groundLayer;
                     cam.setBounds(room.x, 0, room.width * layer.scaleX, layer.height * layer.scaleY);
                     this.scene.finishLine.active = (room.x === 0);
                     this.scene.cameras.main.setBackgroundColor(room.sky);
