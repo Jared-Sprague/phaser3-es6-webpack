@@ -57,13 +57,15 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/, use: ['babel-loader'], include: path.join(__dirname, 'src')
+                test: /\.js$/,
+                use: {
+                    loader: 'babel-loader'
+                },
+                include: path.join(__dirname, 'src')
             },
             {
-                test: /phaser-split\.js$/, use: ['expose-loader?Phaser']
-            },
-            {
-                test: [/\.vert$/, /\.frag$/], use: 'raw-loader'
+                test: /\.(vert|frag)$/,
+                use: 'raw-loader'
             }
         ]
     }
